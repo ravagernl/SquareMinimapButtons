@@ -1,9 +1,0 @@
-## Interface: 50001
-## Title: |cffC495DDTukui|r Square Minimap Buttons
-## Version: 1.00
-## Notes: Minimap Button Skinning thanks to Sinaris
-## Author: Sinaris, Azilroka
-## RequiredDeps: Tukui
-
-
-SquareMinimapButtons.lua
