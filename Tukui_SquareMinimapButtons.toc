@@ -3,5 +3,7 @@
 ## Version: 1.00
 ## Notes: Minimap Button Skinning thanks to Sinaris
 ## Author: Sinaris, Azilroka
+## RequiredDeps: Tukui
+
 
 SquareMinimapButtons.lua
