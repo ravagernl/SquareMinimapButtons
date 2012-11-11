@@ -1,5 +1,6 @@
 --Minimap Button Skinning thanks to Sinaris
-local T, C, L = unpack(Tukui)
+if Tukui then local T, C, L = unpack(Tukui) end
+if ElvUI then local E, L, V, P, G = unpack(ElvUI) end
 
 if IsAddOnLoaded("AsphyxiaUI") or IsAddOnLoaded("SinarisUI") then return end
 
@@ -44,7 +45,8 @@ local function SkinButton(frame)
 				region:SetTexCoord( 0.1, 0.9, 0.1, 0.9 )
 				region:SetDrawLayer( "ARTWORK" )
 				if(frame:GetName() == "PS_MinimapButton") then
-					region.SetPoint = T.dummy
+					if Tukui then region.SetPoint = T.dummy end
+					if ElvUI then region.SetPoint = E.noop end
 				end
 			end
 		end
