@@ -48,8 +48,12 @@ local function SkinButton(frame)
 			end
 		end
 	end
-
-	frame:SetTemplate("Default")
+	if IsAddOnLoaded("Tukui_Skins") then
+		local U = unpack(UISkins)
+		U.SkinFrame(frame, true)
+	else
+		frame:SetTemplate("Default")
+	end
 end
 
 local UISkinMinimapButtons = CreateFrame("Frame")
@@ -59,6 +63,4 @@ UISkinMinimapButtons:SetScript("OnEvent", function(self, event)
 	for i = 1, Minimap:GetNumChildren() do
 		SkinButton(select(i, Minimap:GetChildren()))
 	end
-
-	self = nil
 end)
