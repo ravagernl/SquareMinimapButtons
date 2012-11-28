@@ -1,7 +1,3 @@
---Minimap Button Skinning thanks to Sinaris
-
-if IsAddOnLoaded("AsphyxiaUI") or IsAddOnLoaded("SinarisUI") then return end
-
 local buttons = {
 	"QueueStatusMinimapButton",
 	"MiniMapTrackingButton",
