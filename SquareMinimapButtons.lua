@@ -6,6 +6,8 @@ local buttons = {
 	"ElvConfigToggle",
 	"DBMMinimapButton",
 	"ZygorGuidesViewerMapIcon",
+	"AsphyxiaUIMinimapHelpButton",
+	"AsphyxiaUIMinimapVersionButton",
 }
 
 local function SkinButton(frame)
