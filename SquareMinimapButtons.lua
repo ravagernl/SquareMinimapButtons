@@ -46,7 +46,7 @@ local function SkinButton(frame)
 			end
 		end
 	end
-	if IsAddOnLoaded("Tukui_Skins") then
+	if IsAddOnLoaded("Tukui_Skins") and not IsAddOnLoaded("ElvUI") then
 		local U = unpack(UISkins)
 		U.SkinFrame(frame, true)
 	else
