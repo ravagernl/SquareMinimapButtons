@@ -17,10 +17,11 @@ local function SkinButton(frame)
 	for i, buttons in pairs(buttons) do
 		if(frame:GetName() ~= nil) then
 			if(frame:GetName():match(buttons)) then return end
-			for z = 1,999 do
-				if _G["GatherMatePin"..z] then return end
-			end
 		end
+	end
+
+	for i = 1,999 do
+		if _G["GatherMatePin"..i] == frame then return end
 	end
 
 	frame:SetPushedTexture(nil)
@@ -58,8 +59,8 @@ end
 local UISkinMinimapButtons = CreateFrame("Frame")
 UISkinMinimapButtons:RegisterEvent("PLAYER_ENTERING_WORLD")
 UISkinMinimapButtons:SetScript("OnEvent", function(self, event)
-	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 	for i = 1, Minimap:GetNumChildren() do
 		SkinButton(select(i, Minimap:GetChildren()))
 	end
+	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
 end)

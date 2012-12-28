@@ -1,8 +1,8 @@
 ## Interface: 50100
 ## Title: |cffC495DDTukui|r & |cff1784d1ElvUI |r Square Minimap Buttons
-## Version: 1.02
+## Version: 1.03
 ## Notes: Minimap Button Skinning thanks to Sinaris
-## OptionalDeps: Tukui, ElvUI, Tukui_Skins
+## OptionalDeps: AsphyxiaUI, DuffedUI, Tukui, ElvUI, Tukui_Skins
 ## Author: Sinaris, Azilroka
 
 SquareMinimapButtons.lua
