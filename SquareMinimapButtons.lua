@@ -1,4 +1,3 @@
-if not (IsAddOnLoaded("Tukui") or IsAddOnLoaded("AsphyxiaUI") or IsAddOnLoaded("DuffedUI") or IsAddOnLoaded("ElvUI")) then return end
 local buttons = {
 	"QueueStatusMinimapButton",
 	"MiniMapTrackingButton",
