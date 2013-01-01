@@ -59,6 +59,9 @@ end
 local UISkinMinimapButtons = CreateFrame("Frame")
 UISkinMinimapButtons:RegisterEvent("PLAYER_ENTERING_WORLD")
 UISkinMinimapButtons:SetScript("OnEvent", function(self, event)
+	if MMHolder or TukuiMinimap or AsphyxiaUIMinimap or DuffedUIMinimap then
+		Minimap:SetMaskTexture('Interface\\ChatFrame\\ChatFrameBackground')
+	end
 	for i = 1, Minimap:GetNumChildren() do
 		SkinButton(select(i, Minimap:GetChildren()))
 	end
