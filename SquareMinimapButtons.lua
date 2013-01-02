@@ -156,6 +156,7 @@ end)
 SLASH_SQUAREMINIMAP1 = "/mbb"
 SlashCmdList["SQUAREMINIMAP"] = function(arg)
 	if arg == "unlock" or arg == "lock" then
+		if ElvUI then print("Please use the Toggle Anchors Option.") return end
 		if SquareMinimapButtonBarAnchor:IsShown() then
 			SquareMinimapButtonBarAnchor:Hide()
 		else
@@ -175,7 +176,7 @@ SlashCmdList["SQUAREMINIMAP"] = function(arg)
 		print("Please Reload for changes to take effect. /rl")
 	elseif arg == "" then
 		print("Square Minimap Button Bar Options")
-		print("/mbb unlock | lock - Toggles the Anchor.")
+		if not ElvUI then print("/mbb unlock | lock - Toggles the Anchor.") end
 		print("/mbb horizontal | h - Switches to Horizontal Layout.")
 		print("/mbb vertical | v - Switches to Vertical Layout.")
 		print("/mbb disable - Disables the Anchor.")
