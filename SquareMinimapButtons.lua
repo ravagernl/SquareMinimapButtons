@@ -93,36 +93,6 @@ local function SkinButton(Frame)
 	FrameNumber = FrameNumber + 1
 end
 
-local function MBBRenewAnchor(Frame)
-	if SquareMinimapButtonBarLayout == "Disabled" then return end
-	if SquareMinimapButtonBarLayout == "Vertical" then
-		Anchor1 = "TOP"
-		Anchor2 = "BOTTOM"
-		AnchorX1 = 0
-		AnchorY1 = -3
-		AnchorX2 = 0
-		AnchorY2 = -2
-	elseif SquareMinimapButtonBarLayout == "Horizontal" then
-		Anchor1 = "RIGHT"
-		Anchor2 = "LEFT"
-		AnchorX1 = -3
-		AnchorY1 = 0
-		AnchorX2 = -2
-		AnchorY2 = 0
-	end
-	
-	Frame:ClearAllPoints()
-	Frame:SetFrameStrata("LOW")
-	if not LastFrame then
-		Frame:SetPoint(Anchor1, SquareMinimapButtonBar, Anchor1, AnchorX1, AnchorY1)
-	else
-		Frame:SetPoint(Anchor1, LastFrame, Anchor2, AnchorX2, AnchorY2)
-	end
-	tinsert(MoveButtons, Frame:GetName())
-	LastFrame = Frame
-	FrameNumber = FrameNumber + 1
-end
-
 local SquareMinimapButtonBarAnchor = CreateFrame("Frame", "SquareMinimapButtonBarAnchor", UIParent)
 SquareMinimapButtonBarAnchor:SetFrameStrata("HIGH")
 SquareMinimapButtonBarAnchor:SetTemplate("Transparent")
