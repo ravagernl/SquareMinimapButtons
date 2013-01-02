@@ -56,7 +56,7 @@ local function SkinButton(Frame)
 			end
 		end
 	end
-	if IsAddOnLoaded("Tukui_Skins") and not IsAddOnLoaded("ElvUI") then
+	if UISkins and not ElvUI then
 		local U = unpack(UISkins)
 		U.SkinFrame(Frame, true)
 	else
@@ -154,22 +154,23 @@ SlashCmdList["SQUAREMINIMAP"] = function(arg)
 		else
 			SquareMinimapButtonBarAnchor:Show()
 		end
-	elseif arg == "Horizontal" or arg == "horizontal" or arg == "h" then
+	elseif arg == "horizontal" or arg == "h" then
 		SquareMinimapButtonBarLayout = "Horizontal"
 		print("Square Minimap Button Bar Layout: "..SquareMinimapButtonBarLayout.." Set!")
 		print("Please Reload for changes to take effect. /rl")
-	elseif arg == "Vertical" or arg == "vertical" or arg == "v" then
+	elseif arg == "vertical" or arg == "v" then
 		SquareMinimapButtonBarLayout = "Vertical"
 		print("Square Minimap Button Bar Layout: "..SquareMinimapButtonBarLayout.." Set!")
 		print("Please Reload for changes to take effect. /rl")
-	elseif arg == "Disable" or arg == "disable" then
+	elseif arg == "disable" then
 		SquareMinimapButtonBarLayout = "Disabled"
 		print("Square Minimap Button Bar : "..SquareMinimapButtonBarLayout)
 		print("Please Reload for changes to take effect. /rl")
 	elseif arg == "" then
 		print("Square Minimap Button Bar Options")
-		print("/mbb Horizontal")
-		print("/mbb Vertical")
-		print("/mbb Disabled")
+		print("/mbb unlock | lock - Toggles the Anchor.")
+		print("/mbb horizontal | h - Switches to Horizontal Layout.")
+		print("/mbb vertical | v - Switches to Vertical Layout."")
+		print("/mbb disable - Disables the Anchor.")
 	end
 end
