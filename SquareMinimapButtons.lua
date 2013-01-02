@@ -170,7 +170,7 @@ SlashCmdList["SQUAREMINIMAP"] = function(arg)
 		print("Square Minimap Button Bar Options")
 		print("/mbb unlock | lock - Toggles the Anchor.")
 		print("/mbb horizontal | h - Switches to Horizontal Layout.")
-		print("/mbb vertical | v - Switches to Vertical Layout."")
+		print("/mbb vertical | v - Switches to Vertical Layout.")
 		print("/mbb disable - Disables the Anchor.")
 	end
 end
