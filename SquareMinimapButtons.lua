@@ -1,4 +1,5 @@
 if not (IsAddOnLoaded("Tukui") or IsAddOnLoaded("AsphyxiaUI") or IsAddOnLoaded("DuffedUI") or IsAddOnLoaded("ElvUI")) then return end
+local A, C = unpack(ElvUI or Tukui or DuffedUI or AsphyxiaUI)
 local IgnoreButtons = {
 	"AsphyxiaUIMinimapHelpButton",
 	"AsphyxiaUIMinimapVersionButton",
@@ -98,24 +99,26 @@ SquareMinimapButtonBarAnchor:SetFrameStrata("HIGH")
 SquareMinimapButtonBarAnchor:SetTemplate("Transparent")
 SquareMinimapButtonBarAnchor:SetBackdropBorderColor(1,0,0)
 SquareMinimapButtonBarAnchor:SetPoint("RIGHT", UIParent,"RIGHT", -45, 0)
-SquareMinimapButtonBarAnchor:SetMovable(true)
-SquareMinimapButtonBarAnchor:EnableMouse(true)
-SquareMinimapButtonBarAnchor:SetClampedToScreen(true)
-SquareMinimapButtonBarAnchor:RegisterForDrag("LeftButton")
-SquareMinimapButtonBarAnchor:SetScript("OnDragStart", function(self) self:StartMoving() end)
-SquareMinimapButtonBarAnchor:SetScript("OnDragStop", function(self) self:StopMovingOrSizing() end)
 SquareMinimapButtonBarAnchor:Hide()
-SquareMinimapButtonBarAnchor.text = SquareMinimapButtonBarAnchor:CreateFontString(nil, "OVERLAY")
-SquareMinimapButtonBarAnchor.text:SetPoint("CENTER", SquareMinimapButtonBarAnchor, 0, 0)
+if not ElvUI then
+	SquareMinimapButtonBarAnchor:SetMovable(true)
+	SquareMinimapButtonBarAnchor:EnableMouse(true)
+	SquareMinimapButtonBarAnchor:SetClampedToScreen(true)
+	SquareMinimapButtonBarAnchor:RegisterForDrag("LeftButton")
+	SquareMinimapButtonBarAnchor:SetScript("OnDragStart", function(self) self:StartMoving() end)
+	SquareMinimapButtonBarAnchor:SetScript("OnDragStop", function(self) self:StopMovingOrSizing() end)
+	SquareMinimapButtonBarAnchor.text = SquareMinimapButtonBarAnchor:CreateFontString(nil, "OVERLAY")
+	SquareMinimapButtonBarAnchor.text:SetPoint("CENTER", SquareMinimapButtonBarAnchor, 0, 0)
+end
 
 local SquareMinimapButtonBar = CreateFrame("Frame", "SquareMinimapButtonBar", UIParent)
 SquareMinimapButtonBar:SetFrameStrata("BACKGROUND")
 SquareMinimapButtonBar:SetTemplate("Transparent")
 SquareMinimapButtonBar:SetPoint("CENTER", SquareMinimapButtonBarAnchor,"CENTER", 0, 0)
-SquareMinimapButtonBar:SetScript("OnUpdate", function(self)
-	if InCombatLockdown() then return end
+SquareMinimapButtonBar:Hide()
+SquareMinimapButtonBar:SetScript("OnShow", function(self)
 	for _, buttons in pairs(MoveButtons) do
-		if _G[buttons]:GetParent() ~= self then _G[buttons]:SetParent(self) end
+		_G[buttons]:SetParent(self)
 	end
 end)
 
@@ -141,9 +144,13 @@ SquareMinimapButtons:SetScript("OnEvent", function(self, event)
 		SquareMinimapButtonBar:Width((26*FrameNumber)+(FrameNumber-1))
 		SquareMinimapButtonBarAnchor:Width((26*FrameNumber)+(FrameNumber-1))
 	end
-	local A, C = unpack(ElvUI or Tukui or DuffedUI or AsphyxiaUI)
-	SquareMinimapButtonBarAnchor.text:SetFont(ElvUI and A["media"].normFont or C["media"].font, 12, "OUTLINE")
-	SquareMinimapButtonBarAnchor.text:SetText("Square Minimap Button Anchor")
+	if not ElvUI then
+		SquareMinimapButtonBarAnchor.text:SetFont(C["media"].font, 12, "OUTLINE")
+		SquareMinimapButtonBarAnchor.text:SetText("Square Minimap Button Anchor")
+	else
+		A:CreateMover(SquareMinimapButtonBarAnchor, "MinimapButtonAnchor", "Square Minimap Button Bar Anchor", nil, nil, nil, "ALL,SOLO")
+	end	
+	SquareMinimapButtonBar:Show()
 end)
 
 SLASH_SQUAREMINIMAP1 = "/mbb"
