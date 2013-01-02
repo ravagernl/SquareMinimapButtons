@@ -119,6 +119,9 @@ SquareMinimapButtonBar:Hide()
 SquareMinimapButtonBar:SetScript("OnShow", function(self)
 	for _, buttons in pairs(MoveButtons) do
 		_G[buttons]:SetParent(self)
+		_G[buttons]:SetMovable(false)
+		_G[buttons]:SetScript("OnDragStart", nil)
+		_G[buttons]:SetScript("OnDragStop", nil)
 	end
 end)
 
