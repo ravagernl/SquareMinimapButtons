@@ -57,13 +57,8 @@ local function SkinButton(Frame)
 			end
 		end
 	end
-	if UISkins and not ElvUI then
-		local U = unpack(UISkins)
-		U.SkinFrame(Frame, true)
-	else
-		Frame:SetTemplate("Default")
-	end
-	
+	Frame:SetTemplate("Default")
+
 	if not Frame:IsShown() then return end
 	if SquareMinimapButtonBarLayout == "Disabled" then return end
 	if SquareMinimapButtonBarLayout == "Vertical" then
