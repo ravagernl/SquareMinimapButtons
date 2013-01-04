@@ -3,7 +3,6 @@ local A, C = unpack(ElvUI or Tukui or DuffedUI or AsphyxiaUI)
 local IgnoreButtons = {
 	"AsphyxiaUIMinimapHelpButton",
 	"AsphyxiaUIMinimapVersionButton",
-	"DBMMinimapButton",
 	"ElvConfigToggle",
 	"ZygorGuidesViewerMapIcon",
 	"GameTimeFrame",
@@ -22,22 +21,23 @@ FrameNumber = 0
 
 local function SkinButton(Frame)
 	if(Frame:GetObjectType() ~= "Button") then return end
-
+	if not Frame:IsVisible() then return end
 	for i, buttons in pairs(IgnoreButtons) do
 		if(Frame:GetName() ~= nil) then
 			if(Frame:GetName():match(buttons)) then return end
 		end
 	end
 
-	for i = 1,999 do
+	for i = 1,120 do
 		if _G["GatherMatePin"..i] == Frame then return end
+		if _G["Spy_MapNoteList_mini"..i] == Frame then return end
 	end
 
 	Frame:SetPushedTexture(nil)
 	Frame:SetHighlightTexture(nil)
 	Frame:SetDisabledTexture(nil)
 	Frame:Size(24)
-
+	if Frame:GetName() == "DBMMinimapButton" then Frame:SetNormalTexture("Interface\\Icons\\INV_Helmet_87") end
 	for i = 1, Frame:GetNumRegions() do
 		local Region = select(i, Frame:GetRegions())
 		if(Region:GetObjectType() == "Texture") then
@@ -58,8 +58,7 @@ local function SkinButton(Frame)
 		end
 	end
 	Frame:SetTemplate("Default")
-
-	if not Frame:IsShown() then return end
+	
 	if SquareMinimapButtonBarLayout == "Disabled" then return end
 	if SquareMinimapButtonBarLayout == "Vertical" then
 		Anchor1 = "TOP"
@@ -109,6 +108,7 @@ end
 local SquareMinimapButtonBar = CreateFrame("Frame", "SquareMinimapButtonBar", UIParent)
 SquareMinimapButtonBar:SetFrameStrata("BACKGROUND")
 SquareMinimapButtonBar:SetTemplate("Transparent")
+SquareMinimapButtonBar:CreateShadow()
 SquareMinimapButtonBar:SetPoint("CENTER", SquareMinimapButtonBarAnchor,"CENTER", 0, 0)
 SquareMinimapButtonBar:Hide()
 SquareMinimapButtonBar:SetScript("OnShow", function(self)
