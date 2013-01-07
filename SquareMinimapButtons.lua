@@ -81,21 +81,25 @@ local function SkinButton(Frame)
 	Frame:SetFrameStrata("LOW")
 	if not LastFrame then
 		Frame:SetPoint(Anchor1, SquareMinimapButtonBar, Anchor1, AnchorX1, AnchorY1)
-		if SquareMinimapButtonBarLayout == "Vertical" then SquareMinimapButtonBar.backdrop:SetPoint("TOPLEFT", Frame, "TOPLEFT", -4, 4) else SquareMinimapButtonBar.backdrop:SetPoint("BOTTOMRIGHT", Frame, "BOTTOMRIGHT", 4, -4) end
 	else
 		Frame:SetPoint(Anchor1, LastFrame, Anchor2, AnchorX2, AnchorY2)
-		if SquareMinimapButtonBarLayout == "Vertical" then SquareMinimapButtonBar.backdrop:SetPoint("BOTTOMRIGHT", Frame, "BOTTOMRIGHT", 4, -4) else SquareMinimapButtonBar.backdrop:SetPoint("TOPLEFT", Frame, "TOPLEFT", -4, 4) end
 	end
 	tinsert(MoveButtons, Frame:GetName())
 	LastFrame = Frame
+	if SquareMinimapButtonBarLayout == "Vertical" then
+		SquareMinimapButtonBar:Height((Frame:GetSize() * #MoveButtons) + (4 * #MoveButtons+1) + 3)
+	else
+		SquareMinimapButtonBar:Width((Frame:GetSize() * #MoveButtons) + (4 * #MoveButtons+1) + 3)
+	end
 	SquareMinimapButtonBar:Hide()
 	SquareMinimapButtonBar:Show()
+	
 end
 
 local SquareMinimapButtonBarAnchor = CreateFrame("Frame", "SquareMinimapButtonBarAnchor", UIParent)
 SquareMinimapButtonBarAnchor:SetFrameStrata("HIGH")
-SquareMinimapButtonBarAnchor:CreateBackdrop("Transparent")
-SquareMinimapButtonBarAnchor.backdrop:SetBackdropBorderColor(1,0,0)
+SquareMinimapButtonBarAnchor:SetTemplate("Transparent")
+SquareMinimapButtonBarAnchor:SetBackdropBorderColor(1,0,0)
 SquareMinimapButtonBarAnchor:SetPoint("RIGHT", UIParent,"RIGHT", -45, 0)
 SquareMinimapButtonBarAnchor:Hide()
 if not ElvUI then
@@ -111,10 +115,10 @@ end
 
 local SquareMinimapButtonBar = CreateFrame("Frame", "SquareMinimapButtonBar", UIParent)
 SquareMinimapButtonBar:SetFrameStrata("BACKGROUND")
-SquareMinimapButtonBar:Height(26)
-SquareMinimapButtonBar:Width(26)
-SquareMinimapButtonBar:CreateBackdrop("Transparent")
-SquareMinimapButtonBar.backdrop:CreateShadow()
+SquareMinimapButtonBar:Height(34)
+SquareMinimapButtonBar:Width(34)
+SquareMinimapButtonBar:SetTemplate("Transparent")
+SquareMinimapButtonBar:CreateShadow()
 SquareMinimapButtonBar:SetPoint("CENTER", SquareMinimapButtonBarAnchor,"CENTER", 0, 0)
 SquareMinimapButtonBar:Hide()
 SquareMinimapButtonBar:SetScript("OnShow", function(self)
@@ -144,7 +148,7 @@ SquareMinimapButtons:SetScript("OnEvent", function(self, event)
 	
 	if event == "PLAYER_LOGIN" then StartSkinning() end
 	
-	if event == "PLAYER_ENTERING_WORLD" then if ElvUI then A:Delay(5, StartSkinning) else A.Delay(5, StartSkinning) end self:UnregisterEvent("PLAYER_ENTERING_WORLD") end
+	if event == "PLAYER_ENTERING_WORLD" then if ElvUI then A:Delay(10, StartSkinning) else A.Delay(10, StartSkinning) end self:UnregisterEvent("PLAYER_ENTERING_WORLD") end
 	
 	if SquareMinimapButtonBarLayout == "Disabled" then return end
 	
