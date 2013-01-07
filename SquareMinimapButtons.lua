@@ -16,18 +16,14 @@ local IgnoreButtons = {
 
 local MoveButtons = {}
 
-local LastFrame, FrameName, FrameNumber, Anchor1, Anchor2, AnchorX1, AnchorY1, AnchorX2, AnchorY2
+local LastFrame, FrameName, Anchor1, Anchor2, AnchorX1, AnchorY1, AnchorX2, AnchorY2
 FrameNumber = 0
 
 local function SkinButton(Frame)
-	if(Frame:GetObjectType() ~= "Button") then return end
-	if not Frame:IsVisible() then return end
+	if Frame == nil or Frame:GetName() == nil or (Frame:GetObjectType() ~= "Button") or not Frame:IsVisible() then return end
 	for i, buttons in pairs(IgnoreButtons) do
-		if(Frame:GetName() ~= nil) then
-			if(Frame:GetName():match(buttons)) then return end
-		end
+		if Frame:GetName() == buttons then return end
 	end
-
 	for i = 1,120 do
 		if _G["GatherMatePin"..i] == Frame then return end
 		if _G["Spy_MapNoteList_mini"..i] == Frame then return end
@@ -36,26 +32,31 @@ local function SkinButton(Frame)
 	Frame:SetPushedTexture(nil)
 	Frame:SetHighlightTexture(nil)
 	Frame:SetDisabledTexture(nil)
-	Frame:Size(24)
 	if Frame:GetName() == "DBMMinimapButton" then Frame:SetNormalTexture("Interface\\Icons\\INV_Helmet_87") end
-	for i = 1, Frame:GetNumRegions() do
-		local Region = select(i, Frame:GetRegions())
-		if(Region:GetObjectType() == "Texture") then
-			local Texture = Region:GetTexture()
-
-			if(Texture and (Texture:find("Border") or Texture:find("Background") or Texture:find("AlphaMask"))) then
-				Region:SetTexture(nil)
-			else
-				Region:ClearAllPoints()
-				Region:Point("TOPLEFT", Frame, "TOPLEFT", 2, -2)
-				Region:Point("BOTTOMRIGHT", Frame, "BOTTOMRIGHT", -2, 2)
-				Region:SetTexCoord( 0.1, 0.9, 0.1, 0.9 )
-				Region:SetDrawLayer( "ARTWORK" )
-				if(Frame:GetName() == "PS_MinimapButton") then
-					Region.SetPoint = function() end
+	if Frame:GetName() == "SmartBuff_MiniMapButton" then Frame:SetNormalTexture(select(3, GetSpellInfo(12051))) end
+	
+	Frame:Size(27)  
+	if not Frame.isSkinned then
+		for i = 1, Frame:GetNumRegions() do
+			local Region = select(i, Frame:GetRegions())
+			if(Region:GetObjectType() == "Texture") then
+				local Texture = Region:GetTexture()
+			
+				if(Texture and (Texture:find("Border") or Texture:find("Background") or Texture:find("AlphaMask"))) then
+					Region:SetTexture(nil)
+				else
+					Region:ClearAllPoints()
+					Region:Point("TOPLEFT", Frame, "TOPLEFT", 2, -2)
+					Region:Point("BOTTOMRIGHT", Frame, "BOTTOMRIGHT", -2, 2)
+					Region:SetTexCoord( 0.1, 0.9, 0.1, 0.9 )
+					Region:SetDrawLayer( "ARTWORK" )
+					if(Frame:GetName() == "PS_MinimapButton") then
+						Region.SetPoint = function() end
+					end
 				end
 			end
 		end
+		Frame.isSkinned = true
 	end
 	Frame:SetTemplate("Default")
 	
@@ -64,15 +65,15 @@ local function SkinButton(Frame)
 		Anchor1 = "TOP"
 		Anchor2 = "BOTTOM"
 		AnchorX1 = 0
-		AnchorY1 = -3
+		AnchorY1 = -4
 		AnchorX2 = 0
-		AnchorY2 = -2
+		AnchorY2 = -4
 	elseif SquareMinimapButtonBarLayout == "Horizontal" then
 		Anchor1 = "RIGHT"
 		Anchor2 = "LEFT"
-		AnchorX1 = -3
+		AnchorX1 = -4
 		AnchorY1 = 0
-		AnchorX2 = -2
+		AnchorX2 = -4
 		AnchorY2 = 0
 	end
 	
@@ -80,18 +81,21 @@ local function SkinButton(Frame)
 	Frame:SetFrameStrata("LOW")
 	if not LastFrame then
 		Frame:SetPoint(Anchor1, SquareMinimapButtonBar, Anchor1, AnchorX1, AnchorY1)
+		if SquareMinimapButtonBarLayout == "Vertical" then SquareMinimapButtonBar.backdrop:SetPoint("TOPLEFT", Frame, "TOPLEFT", -4, 4) else SquareMinimapButtonBar.backdrop:SetPoint("BOTTOMRIGHT", Frame, "BOTTOMRIGHT", 4, -4) end
 	else
 		Frame:SetPoint(Anchor1, LastFrame, Anchor2, AnchorX2, AnchorY2)
+		if SquareMinimapButtonBarLayout == "Vertical" then SquareMinimapButtonBar.backdrop:SetPoint("BOTTOMRIGHT", Frame, "BOTTOMRIGHT", 4, -4) else SquareMinimapButtonBar.backdrop:SetPoint("TOPLEFT", Frame, "TOPLEFT", -4, 4) end
 	end
 	tinsert(MoveButtons, Frame:GetName())
 	LastFrame = Frame
-	FrameNumber = FrameNumber + 1
+	SquareMinimapButtonBar:Hide()
+	SquareMinimapButtonBar:Show()
 end
 
 local SquareMinimapButtonBarAnchor = CreateFrame("Frame", "SquareMinimapButtonBarAnchor", UIParent)
 SquareMinimapButtonBarAnchor:SetFrameStrata("HIGH")
-SquareMinimapButtonBarAnchor:SetTemplate("Transparent")
-SquareMinimapButtonBarAnchor:SetBackdropBorderColor(1,0,0)
+SquareMinimapButtonBarAnchor:CreateBackdrop("Transparent")
+SquareMinimapButtonBarAnchor.backdrop:SetBackdropBorderColor(1,0,0)
 SquareMinimapButtonBarAnchor:SetPoint("RIGHT", UIParent,"RIGHT", -45, 0)
 SquareMinimapButtonBarAnchor:Hide()
 if not ElvUI then
@@ -107,8 +111,10 @@ end
 
 local SquareMinimapButtonBar = CreateFrame("Frame", "SquareMinimapButtonBar", UIParent)
 SquareMinimapButtonBar:SetFrameStrata("BACKGROUND")
-SquareMinimapButtonBar:SetTemplate("Transparent")
-SquareMinimapButtonBar:CreateShadow()
+SquareMinimapButtonBar:Height(26)
+SquareMinimapButtonBar:Width(26)
+SquareMinimapButtonBar:CreateBackdrop("Transparent")
+SquareMinimapButtonBar.backdrop:CreateShadow()
 SquareMinimapButtonBar:SetPoint("CENTER", SquareMinimapButtonBarAnchor,"CENTER", 0, 0)
 SquareMinimapButtonBar:Hide()
 SquareMinimapButtonBar:SetScript("OnShow", function(self)
@@ -118,37 +124,36 @@ SquareMinimapButtonBar:SetScript("OnShow", function(self)
 		_G[buttons]:SetScript("OnDragStart", nil)
 		_G[buttons]:SetScript("OnDragStop", nil)
 	end
+	SquareMinimapButtonBarAnchor:SetSize(SquareMinimapButtonBar:GetSize())
 end)
 
-local SquareMinimapButtons = CreateFrame("Frame")
-SquareMinimapButtons:RegisterEvent("PLAYER_ENTERING_WORLD")
-SquareMinimapButtons:SetScript("OnEvent", function(self, event)
-	if SquareMinimapButtonBarLayout == nil then SquareMinimapButtonBarLayout = "Disabled" end
-	if MMHolder or TukuiMinimap or AsphyxiaUIMinimap or DuffedUIMinimap then
-		Minimap:SetMaskTexture('Interface\\ChatFrame\\ChatFrameBackground')
-	end
+local function StartSkinning()
 	for i = 1, Minimap:GetNumChildren() do
 		SkinButton(select(i, Minimap:GetChildren()))
 	end
-	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
-	if SquareMinimapButtonBarLayout == "Vertical" then
-		SquareMinimapButtonBar:Width(30)
-		SquareMinimapButtonBarAnchor:Width(30)
-		SquareMinimapButtonBar:Height((26*FrameNumber)+(FrameNumber-1))
-		SquareMinimapButtonBarAnchor:Height((26*FrameNumber)+(FrameNumber-1))
-	elseif SquareMinimapButtonBarLayout == "Horizontal" then
-		SquareMinimapButtonBar:Height(30)
-		SquareMinimapButtonBarAnchor:Height(30)
-		SquareMinimapButtonBar:Width((26*FrameNumber)+(FrameNumber-1))
-		SquareMinimapButtonBarAnchor:Width((26*FrameNumber)+(FrameNumber-1))
+end
+
+local SquareMinimapButtons = CreateFrame("Frame")
+SquareMinimapButtons:RegisterEvent("PLAYER_LOGIN")
+SquareMinimapButtons:RegisterEvent("PLAYER_ENTERING_WORLD")
+SquareMinimapButtons:SetScript("OnEvent", function(self, event)
+	if MMHolder or TukuiMinimap or AsphyxiaUIMinimap or DuffedUIMinimap then
+		Minimap:SetMaskTexture('Interface\\ChatFrame\\ChatFrameBackground')
 	end
-	if not ElvUI then
-		SquareMinimapButtonBarAnchor.text:SetFont(C["media"].font, 12, "OUTLINE")
-		SquareMinimapButtonBarAnchor.text:SetText("Square Minimap Button Anchor")
-	else
-		A:CreateMover(SquareMinimapButtonBarAnchor, "MinimapButtonAnchor", "Square Minimap Button Bar Anchor", nil, nil, nil, "ALL,SOLO")
-	end	
-	SquareMinimapButtonBar:Show()
+	if SquareMinimapButtonBarLayout == nil then SquareMinimapButtonBarLayout = "Disabled" end
+	
+	if event == "PLAYER_LOGIN" then StartSkinning() end
+	
+	if event == "PLAYER_ENTERING_WORLD" then if ElvUI then A:Delay(5, StartSkinning) else A.Delay(5, StartSkinning) end self:UnregisterEvent("PLAYER_ENTERING_WORLD") end
+	
+	if SquareMinimapButtonBarLayout == "Disabled" then return end
+	
+		if not ElvUI then
+			SquareMinimapButtonBarAnchor.text:SetFont(C["media"].font, 12, "OUTLINE")
+			SquareMinimapButtonBarAnchor.text:SetText("Square Minimap Button Anchor")
+		else
+			A:CreateMover(SquareMinimapButtonBarAnchor, "MinimapButtonAnchor", "Square Minimap Button Bar Anchor", nil, nil, nil, "ALL,SOLO")
+		end	
 end)
 
 SLASH_SQUAREMINIMAP1 = "/mbb"
@@ -175,6 +180,12 @@ SlashCmdList["SQUAREMINIMAP"] = function(arg)
 		SquareMinimapButtonBarLayout = "Disabled"
 		print("Square Minimap Button Bar : "..SquareMinimapButtonBarLayout)
 		print("Please Reload for changes to take effect. /rl")
+	elseif arg == "show" or arg == "hide" then
+		if SquareMinimapButtonBar:IsShown() then
+			SquareMinimapButtonBar:Hide()
+		else
+			SquareMinimapButtonBar:Show()
+		end
 	elseif arg == "" then
 		print("Square Minimap Button Bar Options")
 		if not ElvUI then print("/mbb unlock | lock - Toggles the Anchor.") end
