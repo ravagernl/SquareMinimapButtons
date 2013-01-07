@@ -93,7 +93,6 @@ local function SkinButton(Frame)
 	end
 	SquareMinimapButtonBar:Hide()
 	SquareMinimapButtonBar:Show()
-	
 end
 
 local SquareMinimapButtonBarAnchor = CreateFrame("Frame", "SquareMinimapButtonBarAnchor", UIParent)
@@ -131,7 +130,7 @@ SquareMinimapButtonBar:SetScript("OnShow", function(self)
 	SquareMinimapButtonBarAnchor:SetSize(SquareMinimapButtonBar:GetSize())
 end)
 
-local function StartSkinning()
+function StartSkinning()
 	for i = 1, Minimap:GetNumChildren() do
 		SkinButton(select(i, Minimap:GetChildren()))
 	end
@@ -146,18 +145,16 @@ SquareMinimapButtons:SetScript("OnEvent", function(self, event)
 	end
 	if SquareMinimapButtonBarLayout == nil then SquareMinimapButtonBarLayout = "Disabled" end
 	
-	if event == "PLAYER_LOGIN" then StartSkinning() end
+	StartSkinning()
 	
-	if event == "PLAYER_ENTERING_WORLD" then if ElvUI then A:Delay(10, StartSkinning) else A.Delay(10, StartSkinning) end self:UnregisterEvent("PLAYER_ENTERING_WORLD") end
-	
+	if event == "PLAYER_ENTERING_WORLD" then if ElvUI then A:Delay(15, StartSkinning) else A.Delay(15, StartSkinning) end self:UnregisterEvent("PLAYER_ENTERING_WORLD") self:RegisterEvent("ADDON_LOADED") end
 	if SquareMinimapButtonBarLayout == "Disabled" then return end
-	
-		if not ElvUI then
-			SquareMinimapButtonBarAnchor.text:SetFont(C["media"].font, 12, "OUTLINE")
-			SquareMinimapButtonBarAnchor.text:SetText("Square Minimap Button Anchor")
-		else
-			A:CreateMover(SquareMinimapButtonBarAnchor, "MinimapButtonAnchor", "Square Minimap Button Bar Anchor", nil, nil, nil, "ALL,SOLO")
-		end	
+	if not ElvUI then
+		SquareMinimapButtonBarAnchor.text:SetFont(C["media"].font, 12, "OUTLINE")
+		SquareMinimapButtonBarAnchor.text:SetText("Square Minimap Button Anchor")
+	else
+		A:CreateMover(SquareMinimapButtonBarAnchor, "MinimapButtonAnchor", "Square Minimap Button Bar Anchor", nil, nil, nil, "ALL,SOLO")
+	end	
 end)
 
 SLASH_SQUAREMINIMAP1 = "/mbb"
