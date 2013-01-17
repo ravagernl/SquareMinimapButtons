@@ -27,6 +27,7 @@ local function SkinButton(Frame)
 	for i = 1,120 do
 		if _G["GatherMatePin"..i] == Frame then return end
 		if _G["Spy_MapNoteList_mini"..i] == Frame then return end
+		if _G["HandyNotesPin"..i] == Frame then return end
 	end
 
 	Frame:SetPushedTexture(nil)
@@ -137,7 +138,6 @@ function StartSkinning()
 end
 
 local SquareMinimapButtons = CreateFrame("Frame")
-SquareMinimapButtons:RegisterEvent("PLAYER_LOGIN")
 SquareMinimapButtons:RegisterEvent("PLAYER_ENTERING_WORLD")
 SquareMinimapButtons:SetScript("OnEvent", function(self, event)
 	if MMHolder or TukuiMinimap or AsphyxiaUIMinimap or DuffedUIMinimap then
@@ -147,7 +147,7 @@ SquareMinimapButtons:SetScript("OnEvent", function(self, event)
 	
 	StartSkinning()
 	
-	if event == "PLAYER_ENTERING_WORLD" then if ElvUI then A:Delay(15, StartSkinning) else A.Delay(15, StartSkinning) end self:UnregisterEvent("PLAYER_ENTERING_WORLD") self:RegisterEvent("ADDON_LOADED") end
+	if event == "PLAYER_ENTERING_WORLD" then self:UnregisterEvent("PLAYER_ENTERING_WORLD") self:RegisterEvent("ADDON_LOADED") end
 	if SquareMinimapButtonBarLayout == "Disabled" then return end
 	if not ElvUI then
 		SquareMinimapButtonBarAnchor.text:SetFont(C["media"].font, 12, "OUTLINE")
