@@ -131,7 +131,7 @@ SquareMinimapButtonBar:SetScript("OnShow", function(self)
 	SquareMinimapButtonBarAnchor:SetSize(SquareMinimapButtonBar:GetSize())
 end)
 
-function StartSkinning()
+function StartMinimapSkinning()
 	for i = 1, Minimap:GetNumChildren() do
 		SkinButton(select(i, Minimap:GetChildren()))
 	end
@@ -145,9 +145,9 @@ SquareMinimapButtons:SetScript("OnEvent", function(self, event)
 	end
 	if SquareMinimapButtonBarLayout == nil then SquareMinimapButtonBarLayout = "Disabled" end
 	
-	StartSkinning()
+	StartMinimapSkinning()
 	
-	if event == "PLAYER_ENTERING_WORLD" then self:UnregisterEvent("PLAYER_ENTERING_WORLD") self:RegisterEvent("ADDON_LOADED") end
+	if event == "PLAYER_ENTERING_WORLD" then if ElvUI then A:Delay(15, StartMinimapSkinning) else A.Delay(15, StartMinimapSkinning) end self:UnregisterEvent("PLAYER_ENTERING_WORLD") self:RegisterEvent("ADDON_LOADED") end
 	if SquareMinimapButtonBarLayout == "Disabled" then return end
 	if not ElvUI then
 		SquareMinimapButtonBarAnchor.text:SetFont(C["media"].font, 12, "OUTLINE")
@@ -167,7 +167,7 @@ SlashCmdList["SQUAREMINIMAP"] = function(arg)
 				SquareMinimapButtonBarAnchor:Show()
 			end
 		else
-		print("Please use the Toggle Anchors Option.")
+			print("/ec -> Toggle Anchors -> Options: All or Solo")
 		end
 	elseif arg == "horizontal" or arg == "h" then
 		SquareMinimapButtonBarLayout = "Horizontal"
