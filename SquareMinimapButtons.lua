@@ -4,7 +4,6 @@ local IgnoreButtons = {
 	"AsphyxiaUIMinimapHelpButton",
 	"AsphyxiaUIMinimapVersionButton",
 	"ElvConfigToggle",
-	"ZygorGuidesViewerMapIcon",
 	"GameTimeFrame",
 	"HelpOpenTicketButton",
 	"MiniMapMailFrame",
