@@ -27,7 +27,7 @@ local function SkinButton(Frame)
 		if _G["GatherMatePin"..i] == Frame then return end
 		if _G["Spy_MapNoteList_mini"..i] == Frame then return end
 		if _G["HandyNotesPin"..i] == Frame then return end
-		if _G["ZGVMarker"..i.."Mini"] then return end
+		if _G["ZGVMarker"..i.."Mini"] == Frame then return end
 	end
 
 	Frame:SetPushedTexture(nil)
